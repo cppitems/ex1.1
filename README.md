@@ -1,4 +1,3 @@
-1 // item status
 # Exercise EX1.1
 
 This exercise is one of three parts of EX1. The other two parts (EX1.2 and EX1.3) will be rolled out separately. See also https://cppitems.github.io/#/item/000 for an overview and deadlines. The submission deadline for EX1 (all three parts) is **Mo 08.11.2021, 4pm**.
@@ -8,16 +7,18 @@ The sources related to EX1.1 are available at https://github.com/cppitems/ex1.1 
 
 This exercise deals with a `Widget` type which looks like this:
 ```C++
+using Vector = std::vector<unsigned>
+
 struct Widget {
-  std::vector<unsigned> vec;
+  Vector vec;
 };
 ```
-`Widget` has a single non-reference member `vec` which is of type `std::vector<unsigned>`.
+`Widget` has a single non-reference member `vec` which is of type `Vector = std::vector<unsigned>`.
 
 Your task is to complete the implementaton of three types of initialization functions `init(...)`, so they are as efficient as possible, i.e. using `std::move()`.
 The tests in the folder `tests` will detect whether you have found the most efficient solution and will fail if you have not, giving you hints what the problem is.
 
-All three functions initialize a `Widget` using an existing `Vector` object which is passed as argument. They are defined in different namespaces so their definitions do not collide. These namespaces are `rvref`, `lvref`, `value`, which are defined in `include/Widget.cpp`.
+All three functions initialize a `Widget` using an existing `Vector` object which is passed as the function parameter. They are defined in different namespaces so their definitions do not collide. These namespaces are `rvref`, `lvref`, `value`, which are defined in `include/Widget.cpp`.
 **You should not change any code beside the initialization of the Widget object**:
 
 ```C++
