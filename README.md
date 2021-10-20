@@ -88,7 +88,7 @@ The code in `src/benchmark.cpp` measures the runtime of all three initialization
 rvref::init(std::move(vec));
 ```
 
-The output of running the executable `benchmark` before you have changed anything it will look similar to:
+The output of running the executable `benchmark` before you have changed anything will look similar to:
 
 ```
 rvref::init(Vector&&) called as rvref::init(std::move(vec))  1.97e-02 s
@@ -98,6 +98,6 @@ value::init(Vector)   called as value::init(vec)             3.83e-02 s
 ```
 *Note that `value::init` is called twice: once using an r-value reference using `std::move` and once using an l-value reference.*
 
-Initiallly, the first three invocation take roughly the same time and only the 4th is roughly 2 times slower. Once you have optimized the code, some of the functions should be roughly ten times as fast as the others.
+Initiallly, the first three invocations take roughly the same time and only the 4th is roughly 2 times slower. Once you have optimized the code, some of the functions should be roughly ten times as fast as the others.
 
 Prepare yourself for a discussion on the results of the benchmark and why some functions are faster than others.
