@@ -1,9 +1,9 @@
 #include <chrono>
 #include <iostream>
 #include <iomanip>
-
+   
 #include <Widget.hpp>
-
+  
 // measures the runtime for initialization using
 // a rvalue reference
 // a const lvalue reference
@@ -24,12 +24,12 @@ double runtest(std::vector<Vector> initial, TESTFUNC func) {
   }
   auto stop = Clock::now();
   return Duration(stop - start).count() / initial.size();
-};
+}
 
 
 int main() {
   std::size_t size = 10'000'000; // vector length 10M == ~40MB
-  std::size_t n = 10;            // iterations for averaging run time
+  std::size_t n = 5;            // iterations for averaging run time
 
   // make n vectors that we want to use to initialise n instances of Widget
   std::vector<Vector> initialValues(n, Vector(size, 42));

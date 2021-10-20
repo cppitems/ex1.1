@@ -1,22 +1,21 @@
 cmake_minimum_required(VERSION 3.0)
 
-project(Ex0)
+# export compile_commands.json for use with clangd
+set(CMAKE_EXPORT_COMPILE_COMMANDS true CACHE BOOL "")
+
+project(Ex0 LANGUAGES CXX)
 
 #set the required CPP standard for the project
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED True)
+set(CMAKE_CXX_STANDARD_REQUIRED True) 
 
-# set CXX flags for the compiler to be very strict
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror -Wall -pedantic")
-
-## Enable Clang sanitizer for memory warnings during Debug builds
-if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+# options for clang and gnu
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+  # strict compilation
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror -Wall -pedantic")
+  # enable ASAN 
   set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=address")
-  # -fsanitize=thread")
-  # -fsanitize=memory")
   set(CMAKE_EXE_LINKER_FLAGS_DEBUG "${CMAKE_EXE_LINKER_FLAGS_DEBUGS} -fno-omit-frame-pointer -fsanitize=address")
-  # -fsanitize=memory")
-  # -fsanitize=thread")
 endif()
 
 # Define our library name
@@ -36,25 +35,19 @@ else(MY_LIBRARY_SOURCES)
   target_include_directories(${MY_LIBRARY} INTERFACE "${MY_LIBRARY_INCLUDE_DIRS}")
 endif(MY_LIBRARY_SOURCES)
 
-
-# buy default tests are built, but this can be turned off
-# command line: cmake -DBUILD_TESTS=OFF ..
-# or use ccmake (simple GUI for cmake): press 'c' to configure cmake,
-# then 'g' to generate makefile, options can be changed by highlighting them and pressing ENTER
-option(BUILD_MY_TESTS "Build unit tests." ON)
-if(BUILD_MY_TESTS)
+# by default tests are built, but this can be turned off using: cmake -DBUILD_TESTS=OFF ..
+option(BUILD_TESTS "Build unit tests." ON)
+if(BUILD_TESTS)
   # Activate CTest testing framework
   enable_testing()
   # Add all tests in folder "tests" to the testing
   add_subdirectory("tests")
 endif()
 
-# Now build additional target to execute benchmarks
-# of the different types of implementations
+# Now build additional target to execute benchmarks of the different types of implementations
 option(BUILD_BENCHMARK "Build the benchmark" ON)
 if(BUILD_BENCHMARK)
   set(BENCHMARK_NAME "benchmark")
   add_executable(${BENCHMARK_NAME} "src/${BENCHMARK_NAME}.cpp")
-  target_include_directories(${BENCHMARK_NAME} PUBLIC "${MY_LIBRARY_INCLUDE_DIRS}")
   target_link_libraries(${BENCHMARK_NAME} PRIVATE ${MY_LIBRARY})
 endif()
