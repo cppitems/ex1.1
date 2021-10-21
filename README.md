@@ -22,7 +22,7 @@ All three functions initialize a `Widget` using an existing `Vector` object whic
 **You should not change any code beside the initialization of the Widget object**:
 
 ```C++
-value::init(Vector vec) {
+Widget value::init(Vector vec) {
   return Widget{/* how should vec be passed here? */};
 }
 ```
